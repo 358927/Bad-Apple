@@ -31,11 +31,11 @@ def RenderImage(path):
             if sum12 == 0:
                 string += " "
             elif sum12 < 50:
-                string += "."
+                string += "-"
             elif sum12 < 100:
-                string += "^"
+                string += "~"
             elif sum12 < 150:
-                string += "%"
+                string += "="
             elif sum12 < 200:
                 string += "@"
             else:
@@ -51,14 +51,16 @@ def eee(file,i):
     Frames[i] = RenderImage("../Frames/"+str(file))
 
 
-filesss = listdir("..\\Frames")[:500]
+# filesss = listdir("..\\Frames")
+filesss = listdir("..\\Frames")[:1000]
 
 for i,file in enumerate(filesss):
     # print(file)
     t = Thread(target=eee, args=(file,i))
     threads.append(t)
-    t.start()
 
+for t in threads:
+    t.start()
 print("e")
 
 for t in threads:
