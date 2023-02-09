@@ -1,7 +1,7 @@
 from os import listdir
 from PIL import Image
 from time import sleep
-from threading import Thread
+import asyncio
 
 h = 6
 w = 4
@@ -10,14 +10,12 @@ InputImage = Image.open("../Frames/0001.png")
 width, height = InputImage.size
 buffer = "\n"*(height//6+5)
 
-Frames = [""]*10000
-threads = []
-print(len(Frames))
 
-def RenderImage(path):
-    # print(path)
-    # path = "../Frames/0100.png"
-    InputImage = Image.open(path)
+Frames = []
+
+async def eee(file,i):
+    print(i)
+    InputImage = Image.open("../Frames/"+file)
     width, height = InputImage.size
     # InputImage.show()
     
@@ -41,32 +39,18 @@ def RenderImage(path):
             else:
                 string += "#"
         string += "\n"
-    # print(string)
-    return string + path
-
-# print(" #\n##")
-
-def eee(file,i):
-    print(i)
-    Frames[i] = RenderImage("../Frames/"+str(file))
+    Frames.insert(i,string + file)
 
 
 # filesss = listdir("..\\Frames")
 filesss = listdir("..\\Frames")[:1000]
+async def main():
+    for i,file in enumerate(filesss):
+        asyncio.create_task(eee(file,i))
+        # print(i)
 
-for i,file in enumerate(filesss):
-    # print(file)
-    t = Thread(target=eee, args=(file,i))
-    threads.append(t)
-
-for t in threads:
-    t.start()
-print("e")
-
-for t in threads:
-    t.join()
-
+asyncio.run(main())
 for Frame in Frames:
-    print(buffer)
-    print(Frame)
+    # print(buffer)
+    print(buffer+Frame)
     sleep(1/60)
