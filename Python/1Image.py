@@ -1,4 +1,4 @@
-from os import listdir
+from os import listdir,system
 from PIL import Image
 from time import sleep
 import asyncio
@@ -8,7 +8,7 @@ w = 4
 
 InputImage = Image.open("../Frames/0001.png")
 width, height = InputImage.size
-buffer = "\n"*(height//6+5)
+buffer = "\n"*(height//6+4)
 
 
 Frames = []
@@ -43,7 +43,7 @@ async def eee(file,i):
 
 
 # filesss = listdir("..\\Frames")
-filesss = listdir("..\\Frames")[:1000]
+filesss = listdir("..\\Frames")[:500]
 async def main():
     for i,file in enumerate(filesss):
         asyncio.create_task(eee(file,i))
@@ -52,5 +52,7 @@ async def main():
 asyncio.run(main())
 for Frame in Frames:
     # print(buffer)
-    print(buffer+Frame)
+    # print(Frame)
+    print(Frame,flush=False)
     sleep(1/60)
+    # system('cls')
